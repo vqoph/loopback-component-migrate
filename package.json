@@ -52,6 +52,7 @@
     "cli-prompt": "^0.4.2",
     "commander": "^2.8.1",
     "debug": "^2.2.0",
+    "dotenv": "^4.0.0",
     "mkdirp": "^0.5.1"
   },
   "peerDependencies": {

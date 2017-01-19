@@ -3,6 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var debug = require('debug')('loopback-component-migrate');
+var dotenv = require('dotenv');
 
 require('babel-register');
 /**
@@ -126,7 +127,7 @@ program
         process.exit();
       });
     });
-   
+
 
   }).on('--help', function() {
     console.log('  Examples:');
