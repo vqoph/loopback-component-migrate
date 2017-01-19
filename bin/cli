@@ -77,14 +77,25 @@ program
   .description('Migrate to the given migration')
   .action(function(options){
 
-    // Get app module
-    var server = program.server || process.cwd() + '/server/server.js';
-    var app = require(path.resolve(process.cwd(), server));
+    fs.stat('./.env', (err, stat) => {
+      if(err == null) {
+        dotenv.config();
+      } else if(err.code !== 'ENOENT') {
+        // file does not exist
+        console.log('loading .env file error: ', err.code);
+      }
 
-    // Migrate Up
-    app.models.Migration.migrate('up', program.to || null , function(err){
-      process.exit();
+      var server = program.server || process.cwd() + '/server/server.js';
+      var app = require(path.resolve(process.cwd(), server));
+
+      // Migrate Up
+      app.models.Migration.migrate('up', program.to || null , function(err){
+        process.exit();
+      });
+
     });
+    // Get app module
+
 
   }).on('--help', function() {
     console.log('  Examples:');
@@ -99,15 +110,23 @@ program
   .command('rollback')
   .description('Rollback to the given migration')
   .action(function(options){
+    fs.stat('./.env', (err, stat) => {
+      if(err == null) {
+        dotenv.config();
+      } else if(err.code !== 'ENOENT') {
+        // file does not exist
+        console.log('loading .env file error: ', err.code);
+      }
+       // Get app modulecon
+      var server = program.server || process.cwd() + '/server/server.js';
+      var app = require(path.resolve(process.cwd(), server));
 
-    // Get app modulecon
-    var server = program.server || process.cwd() + '/server/server.js';
-    var app = require(path.resolve(process.cwd(), server));
-
-    // Rollback
-    app.models.Migration.migrate('down', program.to || null , function(err){
-      process.exit();
+      // Rollback
+      app.models.Migration.migrate('down', program.to || null , function(err){
+        process.exit();
+      });
     });
+   
 
   }).on('--help', function() {
     console.log('  Examples:');
